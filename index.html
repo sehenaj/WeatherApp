@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather app</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="total">
+    <div class="main">
+        <div class="heading">
+            <p>Weather app</p>
+        </div>
+
+        <div class="search">
+            <input type=search placeholder="Search..." spellcheck="false">
+        </div>
+        <div class="er hide" >
+            <h1>City not found!</h1>
+        </div>
+        <div class="hide-display">
+            <div class="container">
+                <p id="city"></p>
+                <p id="temp"> </p>
+                <p id="sky"></p>
+
+                <div class="details">
+                    <div class="col">
+                        <img src="/images/humidity2.png" >
+                        <div class="humidity">
+                            <p id="humidityCheck"></p>
+                            <p>humidity</p>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <img src="/images/wind2.png" >
+                        <div class="wind">
+                            <p id="windspeed"></p>
+                            <p>Wind speed</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script src="/app.js"></script>
+
+</body>
+</html>
+
+<!-- 
+8546a0ad0f8e7773e80c00b42a59e720
+https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+  -->
