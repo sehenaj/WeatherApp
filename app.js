@@ -38,11 +38,11 @@ const getdata = async (name) => {
         const condition = data.weather[0].main;
         let bgImage = "";
 
-        if (condition === "Clouds") bgImage = "/images/clouds.jpg";
-        else if (condition === "Haze") bgImage = "/images/haze.jpg";
-        else if (condition === "Clear") bgImage = "/images/clear.avif";
-        else if (condition === "Rain") bgImage = "/images/rain.jpg";
-        else if (condition === "Mist") bgImage = "/images/mist.avif";
+        if (condition === "Clouds") bgImage = "./images/clouds.jpg";
+        else if (condition === "Haze") bgImage = "./images/haze.jpg";
+        else if (condition === "Clear") bgImage = "./images/clear.avif";
+        else if (condition === "Rain") bgImage = "./images/rain.jpg";
+        else if (condition === "Mist") bgImage = "./images/mist.avif";
 
         if (bgImage !== "") {
             document.body.style.backgroundImage = `url(${bgImage})`;
