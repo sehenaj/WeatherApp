@@ -1,72 +1,58 @@
 const place = document.querySelector("input");
 const msgcontainer = document.querySelector(".hide-display");
-const body = document.querySelector(".total")
 const error = document.querySelector(".er");
-place.addEventListener('keyup',(evt)=>{
-    if (evt.keyCode === 13){
-       evt.preventDefault();
+const body = document.querySelector(".total");
 
-        const name=evt.target.value;
+place.addEventListener('keyup', (evt) => {
+    if (evt.keyCode === 13) {
+        evt.preventDefault();
+        const name = evt.target.value.trim();
+        if (name === "") return;
+
         getdata(name);
-        removehide();
-        
     }
-})
+});
 
-const removehide = () =>{
-    msgcontainer.style. display="block";
-}
+const getdata = async (name) => {
+    const URL = `https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=8546a0ad0f8e7773e80c00b42a59e720&units=metric`;
 
-
-const getdata = async(name) => {
-    const URL=`https://api.openweathermap.org/data/2.5/weather?q=${name}&appid=8546a0ad0f8e7773e80c00b42a59e720&units=metric`;
-    let response = await fetch(URL);
-    let data = await response.json();
-    console.log(data);
-        try
-        {
-            document.querySelector("#city").innerHTML=data.name;
-            document.querySelector("#temp").innerHTML=Math.round(data.main.temp)+"°C";
-            document.querySelector("#sky").innerHTML=data.weather[0].main;
-            document.querySelector("#humidityCheck").innerHTML=data.main.humidity+"%";
-            document.querySelector("#windspeed").innerHTML=Math.round(data.wind.speed)+"km/h";
-            console.log(data.weather[0].main);
-
-            if(data.weather[0].main==="Clouds"){
-                document.body.style.backgroundImage="url(/images/clouds.avif) ";
-                // document.body.style.backgroundRepeat="no-repeat";
-            }
-            else if(data.weather[0].main==="Haze"){
-                document.body.style.backgroundImage="url(/images/haze.avif) ";
-
-            }
-            else if(data.weather[0].main==="Clear"){
-                document.body.style.backgroundImage="url(/images/clear.webp) ";
-
-            }
-            
-            else if(data.weather[0].main==="Rain"){
-                document.body.style.backgroundImage="url(/images/rain.avif) ";
-
-            }
-            
-            else if(data.weather[0].main==="Mist"){
-                document.body.style.backgroundImage="url(/images/mist.avif) ";
-
-            }
+    try {
+        const response = await fetch(URL);
+        if (!response.ok) {
+            throw new Error("City not found");
         }
-        catch(error)
-        {
-            msgcontainer.style. display="none";
-            document.body.style.background="rgba(83, 91, 84, 0.1)";
-            error.classList.remove("hide");
 
+        const data = await response.json();
 
+        document.querySelector("#city").innerHTML = data.name;
+        document.querySelector("#temp").innerHTML = Math.round(data.main.temp) + "°C";
+        document.querySelector("#sky").innerHTML = data.weather[0].main;
+        document.querySelector("#humidityCheck").innerHTML = data.main.humidity + "%";
+        document.querySelector("#windspeed").innerHTML = Math.round(data.wind.speed) + " km/h";
 
+        // Show the container, hide error
+        msgcontainer.style.display = "block";
+        error.classList.add("hide");
+
+        // Change background image based on weather
+        const condition = data.weather[0].main;
+        let bgImage = "";
+
+        if (condition === "Clouds") bgImage = "/images/clouds.jpg";
+        else if (condition === "Haze") bgImage = "/images/haze.jpg";
+        else if (condition === "Clear") bgImage = "/images/clear.avif";
+        else if (condition === "Rain") bgImage = "/images/rain.jpg";
+        else if (condition === "Mist") bgImage = "/images/mist.avif";
+
+        if (bgImage !== "") {
+            document.body.style.backgroundImage = `url(${bgImage})`;
+            document.body.style.backgroundSize = "cover";
+            document.body.style.backgroundRepeat = "no-repeat";
         }
+
+    } catch (err) {
+        msgcontainer.style.display = "none";
+        document.body.style.background = "rgba(83, 91, 84, 0.1)";
+        error.classList.remove("hide");
     }
-
-
-
-
-
+};
